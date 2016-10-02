@@ -6,6 +6,8 @@ security:
     providers:
         in_memory:
             memory: ~
+        admin_user_mock:
+            id: app.security.admin_user_mock_provider
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -22,3 +24,19 @@ security:
 
             # form_login: ~
             # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
+
+        backoffice:
+            pattern: ^/backoffice
+            anonymous: true
+            http_basic: false
+            light_saml_sp:
+                provider: admin_user_mock
+                login_path: /backoffice/saml/login
+                check_path: /backoffice/saml/login_check
+                require_previous_session: false
+
+    access_control:
+        # Allow ananymous access the /saml paths
+        - { path: ^/backoffice/saml, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        # Require user to be admin to access our backoffice
+        - { path: ^/backoffice, role: ROLE_ADMIN }

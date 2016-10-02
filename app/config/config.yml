@@ -66,3 +66,16 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+light_saml_symfony_bridge:
+    own:
+        entity_id: 'https://developerdepueblo.com/backoffice'
+        credentials:
+            -
+                certificate: "%kernel.root_dir%/config/saml/mygoogleappsidp.crt"
+                key:         "%kernel.root_dir%/config/saml/mygoogleappsidp.key"
+                password:    ~
+    party:
+        idp:
+            files:
+                - "%kernel.root_dir%/config/saml/google-apps.com.xml"
